@@ -1,0 +1,4 @@
+.env
+bin/behat*
+vendor
+composer.lock

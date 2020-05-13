@@ -1,0 +1,548 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "location_type": {
+            "title": "Location Type",
+            "type": "string",
+            "examples": [
+                "LO",
+                "LI",
+                "LT"
+            ],
+            "pattern": "^(LO|LI|LT)$"
+        },
+        "schedule_date": {
+            "type": "string",
+            "format": "date",
+            "examples": [
+                "2019-12-21"
+            ]
+        },
+        "wtt_time": {
+            "title": "Working Timetable Time",
+            "type": [
+                "string",
+                "null"
+            ],
+            "pattern": "^([0-9]{0,4}H*)$"
+        },
+        "public_time": {
+            "title": "Public Timetable Time",
+            "type": [
+                "string",
+                "null"
+            ],
+            "pattern": "^[0-9]{0,4}$"
+        },
+        "allowances": {
+            "title": "Allowances",
+            "type": [
+                "string",
+                "null"
+            ],
+            "default": null,
+            "examples": [
+                null,
+                "",
+                "1",
+                "59",
+                "1H",
+                "50H"
+            ]
+        }
+    },
+    "type": "object",
+    "required": [
+        "JsonScheduleV1"
+    ],
+    "properties": {
+        "JsonScheduleV1": {
+            "$id": "#root/JsonScheduleV1",
+            "title": "Schedule JSON",
+            "type": "object",
+            "required": [
+                "transaction_type",
+                "CIF_train_uid",
+                "CIF_stp_indicator",
+                "schedule_start_date"
+            ],
+            "properties": {
+                "transaction_type": {
+                    "$id": "#root/JsonScheduleV1/transaction_type",
+                    "title": "Transaction Type",
+                    "description": "Create or Delete schedule",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/transaction_type"
+                },
+                "CIF_train_uid": {
+                    "$id": "#root/JsonScheduleV1/CIF_train_uid",
+                    "title": "CIF Train UID",
+                    "description": "The unique identifier for the schedule.",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/train_uid"
+                },
+                "CIF_stp_indicator": {
+                    "$id": "#root/JsonScheduleV1/CIF_stp_indicator",
+                    "title": "CIF STP Indicator",
+                    "description": "STP (short-term planning) schedule indicator",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/stp_indicator"
+                },
+                "schedule_start_date": {
+                    "$id": "#root/JsonScheduleV1/schedule_start_date",
+                    "title": "Schedule Start Date",
+                    "description": "The start date of the schedule",
+                    "$ref": "#/definitions/schedule_date"
+                },
+                "schedule_end_date": {
+                    "$id": "#root/JsonScheduleV1/schedule_end_date",
+                    "title": "Schedule End Date",
+                    "description": "The end date of the schedule",
+                    "$ref": "#/definitions/schedule_date"
+                },
+                "schedule_days_runs": {
+                    "$id": "#root/JsonScheduleV1/schedule_days_runs",
+                    "title": "Schedule Days Runs",
+                    "description": "A seven-character field; character 1 represents Monday, character 7 represents Sunday. A 1 in a character position means that the service runs on that day, while a 0 means that it does not.",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/days_runs"
+                },
+                "CIF_bank_holiday_running": {
+                    "$id": "#root/JsonScheduleV1/CIF_bank_holiday_running",
+                    "title": "CIF Bank Holiday Running",
+                    "description": "Bank holiday running code",
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "default": null,
+                    "examples": [
+                        null,
+                        "X",
+                        "G"
+                    ]
+                },
+                "train_status": {
+                    "$id": "#root/JsonScheduleV1/train_status",
+                    "title": "Train Status",
+                    "description": "Train status codes",
+                    "type": "string",
+                    "examples": [
+                        " ",
+                        "B",
+                        "F",
+                        "P",
+                        "S",
+                        "T",
+                        "1",
+                        "2",
+                        "3",
+                        "4",
+                        "5"
+                    ],
+                    "pattern": "^.{1}$"
+                },
+                "applicable_timetable": {
+                    "$id": "#root/JsonScheduleV1/applicable_timetable",
+                    "title": "Applicable Timetable",
+                    "description": "Applicable timetable service",
+                    "type": "string",
+                    "examples": [
+                        "Y",
+                        "N"
+                    ],
+                    "pattern": "^(N|Y)$"
+                },
+                "atoc_code": {
+                    "$id": "#root/JsonScheduleV1/atoc_code",
+                    "title": "ATOC Code",
+                    "description": "ATOC Code",
+                    "type": "string",
+                    "examples": [
+                        "  ",
+                        "VT"
+                    ],
+                    "pattern": "^(\\s|[A-Z]){2}$"
+                },
+                "new_schedule_segment": {
+                    "$id": "#root/JsonScheduleV1/new_schedule_segment",
+                    "title": "New Schedule Segment",
+                    "type": "object",
+                    "required": [
+                        "traction_class",
+                        "uic_code"
+                    ],
+                    "properties": {
+                        "traction_class": {
+                            "$id": "#root/JsonScheduleV1/new_schedule_segment/traction_class",
+                            "title": "Traction Class",
+                            "description": "Always blank",
+                            "default": "",
+                            "type": "string",
+                            "examples": [
+                                ""
+                            ],
+                            "pattern": "^.*$"
+                        },
+                        "uic_code": {
+                            "$id": "#root/JsonScheduleV1/new_schedule_segment/uic_code",
+                            "title": "UIC Code",
+                            "description": "Only populated for trains travelling to/from Europe via the Channel Tunnel, otherwise blank.",
+                            "type": "string",
+                            "default": "",
+                            "examples": [
+                                ""
+                            ],
+                            "pattern": "^.*$"
+                        }
+                    }
+                },
+                "schedule_segment": {
+                    "$id": "#root/JsonScheduleV1/schedule_segment",
+                    "title": "Schedule Segment",
+                    "type": "object",
+                    "required": [
+                        "signalling_id",
+                        "CIF_train_category",
+                        "CIF_headcode",
+                        "CIF_course_indicator",
+                        "CIF_train_service_code",
+                        "CIF_business_sector",
+                        "CIF_power_type",
+                        "CIF_timing_load",
+                        "CIF_speed",
+                        "CIF_operating_characteristics",
+                        "CIF_train_class",
+                        "CIF_sleepers",
+                        "CIF_reservations",
+                        "CIF_connection_indicator",
+                        "CIF_catering_code",
+                        "CIF_service_branding"
+                    ],
+                    "properties": {
+                        "CIF_train_category": {
+                            "$id": "#root/JsonScheduleV1/schedule_segment/CIF_train_category",
+                            "title": "CIF Train Category",
+                            "description": "Train Category",
+                            "type": [
+                                "string",
+                                "null"
+                            ],
+                            "examples": [
+                                null,
+                                "",
+                                "XX"
+                            ],
+                            "pattern": "^(.*|[A-Z0-9]{2})$"
+                        },
+                        "signalling_id": {
+                            "$id": "#root/JsonScheduleV1/schedule_segment/signalling_id",
+                            "title": "Signalling Id",
+                            "description": "Signalling ID, also referred to as headcode, not to be confused with below. For passenger services, this is the headcode of the service. For anonymous freight services this will be blank.",
+                            "type": [
+                                "string",
+                                "null"
+                            ],
+                            "default": null,
+                            "examples": [
+                                "",
+                                null,
+                                "1A54"
+                            ],
+                            "pattern": "^.*$"
+                        },
+                        "CIF_headcode": {
+                            "$id": "#root/JsonScheduleV1/schedule_segment/CIF_headcode",
+                            "title": "CIF Headcode",
+                            "description": "National Reservation System headcode, designated by train operator, not to be confused with above.",
+                            "type": "string",
+                            "default": "",
+                            "examples": [
+                                "",
+                                "7827"
+                            ],
+                            "pattern": "^.*$"
+                        },
+                        "CIF_course_indicator": {
+                            "$id": "#root/JsonScheduleV1/schedule_segment/CIF_course_indicator",
+                            "title": "CIF Course Indicator",
+                            "description": "Not used? Only observed as 1",
+                            "type": "integer",
+                            "examples": [
+                                1
+                            ]
+                        },
+                        "CIF_train_service_code": {
+                            "$id": "#root/JsonScheduleV1/schedule_segment/CIF_train_service_code",
+                            "title": "CIF Train Service Code",
+                            "description": "Divides trains into service groups and used for revenue reasons",
+                            "$ref": "network-rail-definitions.schema.json#/definitions/train_service_code"
+                        },
+                        "CIF_business_sector": {
+                            "$id": "#root/JsonScheduleV1/schedule_segment/CIF_business_sector",
+                            "title": "CIF Business Sector",
+                            "description": "Formerly used to denote the business sector running the service; now represent the Portion ID for services which join or split",
+                            "type": "string",
+                            "default": "??",
+                            "examples": [
+                                "??"
+                            ],
+                            "pattern": "^.*$"
+                        },
+                        "CIF_power_type": {
+                            "$id": "#root/JsonScheduleV1/schedule_segment/CIF_power_type",
+                            "title": "CIF Power Type",
+                            "description": "Power Type codes",
+                            "type": [
+                                "string",
+                                "null"
+                            ],
+                            "default": null,
+                            "examples": [
+                                null,
+                                "D",
+                                "EMU",
+                                "HST"
+                            ],
+                            "pattern": "^.*$"
+                        },
+                        "CIF_timing_load": {
+                            "$id": "#root/JsonScheduleV1/schedule_segment/CIF_timing_load",
+                            "title": "CIF Timing Load",
+                            "description": "",
+                            "type": [
+                                "string",
+                                "null"
+                            ],
+                            "default": null,
+                            "examples": [
+                                null,
+                                "0",
+                                "69",
+                                "V",
+                                "390",
+                                "325 (E)"
+                            ],
+                            "pattern": "^.*$"
+                        },
+                        "CIF_speed": {
+                            "$id": "#root/JsonScheduleV1/schedule_segment/CIF_speed",
+                            "title": "CIF Speed",
+                            "description": "Planned speed of the train service",
+                            "type": [
+                                "string",
+                                "null"
+                            ],
+                            "default": null,
+                            "examples": [
+                                null,
+                                "125"
+                            ],
+                            "pattern": "^.*$"
+                        },
+                        "CIF_operating_characteristics": {
+                            "$id": "#root/JsonScheduleV1/schedule_segment/CIF_operating_characteristics",
+                            "title": "CIF Operating Characteristics",
+                            "description": "Operating characteristics. Up to 6 characters",
+                            "type": [
+                                "string",
+                                "null"
+                            ],
+                            "default": null,
+                            "pattern": "^.{0,6}$"
+                        },
+                        "CIF_train_class": {
+                            "$id": "#root/JsonScheduleV1/schedule_segment/CIF_train_class",
+                            "title": "CIF Train Class",
+                            "description": "Seating classes available: Blank or B - First and standard, S - Standard class only",
+                            "type": [
+                                "string",
+                                "null"
+                            ],
+                            "default": null,
+                            "examples": [
+                                "",
+                                null,
+                                "B",
+                                "S"
+                            ],
+                            "pattern": "^.*$"
+                        },
+                        "CIF_sleepers": {
+                            "$id": "#root/JsonScheduleV1/schedule_segment/CIF_sleepers",
+                            "title": "CIF Sleepers",
+                            "description": "Sleeping accommodation available",
+                            "type": [
+                                "string",
+                                "null"
+                            ],
+                            "default": null,
+                            "examples": [
+                                null,
+                                "B",
+                                "F",
+                                "S"
+                            ]
+                        },
+                        "CIF_reservations": {
+                            "$id": "#root/JsonScheduleV1/schedule_segment/CIF_reservations",
+                            "title": "CIF Reservations",
+                            "description": "Reservation recommendations",
+                            "type": [
+                                "string",
+                                "null"
+                            ],
+                            "default": null,
+                            "examples": [
+                                null,
+                                "A",
+                                "E",
+                                "R",
+                                "S"
+                            ],
+                            "pattern": "^.*$"
+                        },
+                        "CIF_connection_indicator": {
+                            "$id": "#root/JsonScheduleV1/schedule_segment/CIF_connection_indicator",
+                            "title": "CIF Connection Indicator",
+                            "description": "Not used?",
+                            "type": "null",
+                            "default": null
+                        },
+                        "CIF_catering_code": {
+                            "$id": "#root/JsonScheduleV1/schedule_segment/CIF_catering_code",
+                            "title": "CIF Catering Code",
+                            "description": "Upto two characters",
+                            "type": [
+                                "string",
+                                "null"
+                            ],
+                            "default": null,
+                            "examples": [
+                                null,
+                                "C",
+                                "F",
+                                "CF"
+                            ],
+                            "pattern": "^.{0,2}$"
+                        },
+                        "CIF_service_branding": {
+                            "$id": "#root/JsonScheduleV1/schedule_segment/CIF_service_branding",
+                            "title": "CIF Service Branding",
+                            "description": "Service brand. Only used for Eurostar",
+                            "type": "string",
+                            "default": "",
+                            "examples": [
+                                "",
+                                "E"
+                            ],
+                            "pattern": "^.{0,1}$"
+                        },
+                        "schedule_location": {
+                            "$id": "#root/JsonScheduleV1/schedule_segment/schedule_location",
+                            "title": "Schedule Location",
+                            "description": "Location records for a schedule",
+                            "type": "array",
+                            "default": [],
+                            "items": {
+                                "$id": "#root/JsonScheduleV1/schedule_segment/schedule_location/items",
+                                "title": "Location Records",
+                                "type": "object",
+                                "required": [
+                                    "location_type",
+                                    "record_identity",
+                                    "tiploc_code",
+                                    "tiploc_instance"
+                                ],
+                                "properties": {
+                                    "record_identity": {
+                                        "$id": "#root/JsonScheduleV1/schedule_segment/schedule_location/items/record_identity",
+                                        "title": "Record Identity",
+                                        "description": "The type of location record",
+                                        "$ref": "#/definitions/location_type"
+                                    },
+                                    "location_type": {
+                                        "$id": "#root/JsonScheduleV1/schedule_segment/schedule_location/items/location_type",
+                                        "title": "Location Type",
+                                        "description": "Same as Record Identity",
+                                        "$ref": "#/definitions/location_type"
+                                    },
+                                    "tiploc_code": {
+                                        "$id": "#root/JsonScheduleV1/schedule_segment/schedule_location/items/tiploc_code",
+                                        "title": "TIPLOC Code",
+                                        "description": "The TIPLOC Code for the location",
+                                        "$ref": "network-rail-definitions.schema.json#/definitions/tiploc_code"
+                                    },
+                                    "tiploc_instance": {
+                                        "$id": "#root/JsonScheduleV1/schedule_segment/schedule_location/items/tiploc_instance",
+                                        "title": "TIPLOC Instance",
+                                        "description": "The X occurrence of the location",
+                                        "type": [
+                                            "string",
+                                            "null"
+                                        ],
+                                        "default": null
+                                    },
+                                    "departure": {
+                                        "$id": "#root/JsonScheduleV1/schedule_segment/schedule_location/items/departure",
+                                        "title": "WTT Departure",
+                                        "description": "Working Timetable Departure",
+                                        "$ref": "#/definitions/wtt_time"
+                                    },
+                                    "pass": {
+                                        "$id": "#root/JsonScheduleV1/schedule_segment/schedule_location/items/pass",
+                                        "title": "WTT Pass",
+                                        "description": "Working Timetable Pass",
+                                        "$ref": "#/definitions/wtt_time"
+                                    },
+                                    "arrival": {
+                                        "$id": "#root/JsonScheduleV1/schedule_segment/schedule_location/items/arrival",
+                                        "title": "WTT Arrival",
+                                        "description": "Working Timetable Arrival",
+                                        "$ref": "#/definitions/wtt_time"
+                                    },
+                                    "public_departure": {
+                                        "$id": "#root/JsonScheduleV1/schedule_segment/schedule_location/items/public_departure",
+                                        "title": "Public Departure",
+                                        "$ref": "#/definitions/public_time"
+                                    },
+                                    "public_arrival": {
+                                        "$id": "#root/JsonScheduleV1/schedule_segment/schedule_location/items/public_arrival",
+                                        "title": "Public Arrival",
+                                        "$ref": "#/definitions/public_time"
+                                    },
+                                    "platform": {
+                                        "$id": "#root/JsonScheduleV1/schedule_segment/schedule_location/items/platform",
+                                        "title": "Platform",
+                                        "$ref": "network-rail-definitions.schema.json#/definitions/routing"
+                                    },
+                                    "line": {
+                                        "$id": "#root/JsonScheduleV1/schedule_segment/schedule_location/items/line",
+                                        "title": "Line",
+                                        "$ref": "network-rail-definitions.schema.json#/definitions/routing"
+                                    },
+                                    "path": {
+                                        "$id": "#root/JsonScheduleV1/schedule_segment/schedule_location/items/path",
+                                        "title": "Path",
+                                        "$ref": "network-rail-definitions.schema.json#/definitions/routing"
+                                    },
+                                    "engineering_allowance": {
+                                        "$id": "#root/JsonScheduleV1/schedule_segment/schedule_location/items/engineering_allowance",
+                                        "title": "Engineering Allowance",
+                                        "$ref": "#/definitions/allowances"
+                                    },
+                                    "pathing_allowance": {
+                                        "$id": "#root/JsonScheduleV1/schedule_segment/schedule_location/items/pathing_allowance",
+                                        "title": "Pathing Allowance",
+                                        "$ref": "#/definitions/allowances"
+                                    },
+                                    "performance_allowance": {
+                                        "$id": "#root/JsonScheduleV1/schedule_segment/schedule_location/items/performance_allowance",
+                                        "title": "Performance_allowance",
+                                        "$ref": "#/definitions/allowances"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,114 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "required": [
+        "TiplocV1"
+    ],
+    "properties": {
+        "TiplocV1": {
+            "$id": "#root/TiplocV1",
+            "title": "Tiploc",
+            "description": "Provide information about the possible timing point locations in train schedules",
+            "type": "object",
+            "required": [
+                "transaction_type",
+                "tiploc_code"
+            ],
+            "properties": {
+                "transaction_type": {
+                    "$id": "#root/TiplocV1/transaction_type",
+                    "title": "Transaction Type",
+                    "description": "create, update or delete. A full snapshot file will only contain create records. Daily updates may contain either",
+                    "type": "string",
+                    "examples": [
+                        "Create",
+                        "Delete",
+                        "Update"
+                    ],
+                    "pattern": "^(Create|Delete|Update)$"
+                },
+                "tiploc_code": {
+                    "$id": "#root/TiplocV1/tiploc_code",
+                    "title": "Tiploc Code",
+                    "description": "TIPLOC (Timing Point Location) - Codes relating to points used in deriving train schedules",
+                    "type": "string",
+                    "examples": [
+                        "MNCRPIC",
+                        "BRSS533"
+                    ],
+                    "pattern": "^.*$"
+                },
+                "nalco": {
+                    "$id": "#root/TiplocV1/nalco",
+                    "title": "NALCO",
+                    "description": "NLC (National Location Code) - A 6-digit code generally used for retail purposes",
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "default": null,
+                    "examples": [
+                        null,
+                        "320701"
+                    ],
+                    "pattern": "^.*$"
+                },
+                "stanox": {
+                    "$id": "#root/TiplocV1/stanox",
+                    "title": "Stanox",
+                    "description": "STANOX (Station Number) - These codes can refer to non-station locations such as sidings and junctions. STANOX codes are grouped by geographical area - the first two digits specify the area in which the location exists",
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "default": null,
+                    "examples": [
+                        null,
+                        "81405"
+                    ],
+                    "pattern": "^.*$"
+                },
+                "crs_code": {
+                    "$id": "#root/TiplocV1/crs_code",
+                    "title": "CRS",
+                    "description": "CRS (Computer Reservation System) code. Now 3-Alpha Code.",
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "default": null,
+                    "examples": [
+                        null,
+                        "MAN"
+                    ],
+                    "pattern": "^[A-Z]{3}$"
+                },
+                "description": {
+                    "$id": "#root/TiplocV1/description",
+                    "title": "Description",
+                    "description": "The short name of the location. Not populated for every location.",
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "default": null,
+                    "examples": [
+                        null,
+                        "MACCLESFIELD"
+                    ]
+                },
+                "tps_description": {
+                    "$id": "#root/TiplocV1/tps_description",
+                    "title": "TPS Description",
+                    "type": "string",
+                    "description": "Name of the location",
+                    "default": "",
+                    "examples": [
+                        "MACCLESFIELD",
+                        "BRISTOL TM SIG 533"
+                    ]
+                }
+            }
+        }
+    }
+}

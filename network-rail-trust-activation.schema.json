@@ -1,0 +1,243 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "required": [
+        "header",
+        "body"
+    ],
+    "properties": {
+        "header": {
+            "$id": "#root/header",
+            "title": "Header",
+            "type": "object",
+            "required": [
+                "msg_type",
+                "source_dev_id",
+                "user_id",
+                "original_data_source",
+                "msg_queue_timestamp",
+                "source_system_id"
+            ],
+            "properties": {
+                "msg_type": {
+                    "$id": "#root/header/msg_type",
+                    "title": "Message Type",
+                    "description": "Activation Message type code",
+                    "type": "string",
+                    "default": "0001",
+                    "examples": [
+                        "0001"
+                    ],
+                    "pattern": "^0001$"
+                },
+                "source_dev_id": {
+                    "$id": "#root/header/source_dev_id",
+                    "title": "Source Device Id",
+                    "description": "Blank for Activation Message",
+                    "type": "string",
+                    "default": "",
+                    "examples": [
+                        ""
+                    ]
+                },
+                "user_id": {
+                    "$id": "#root/header/user_id",
+                    "title": "User Id",
+                    "description": "Blank for Activation Message",
+                    "type": "string",
+                    "default": "",
+                    "examples": [
+                        ""
+                    ],
+                    "pattern": "^.*$"
+                },
+                "source_system_id": {
+                    "$id": "#root/header/source_system_id",
+                    "title": "Source System Id",
+                    "description": "Will be TRUST for Activation Message",
+                    "type": "string",
+                    "default": "",
+                    "examples": [
+                        "TRUST"
+                    ],
+                    "pattern": "^TRUST$"
+                },
+                "original_data_source": {
+                    "$id": "#root/header/original_data_source",
+                    "title": "Original Data Source",
+                    "description": "Will be TSIA for Activation Message",
+                    "type": "string",
+                    "default": "TSIA",
+                    "examples": [
+                        "TSIA"
+                    ],
+                    "pattern": "^TSIA$"
+                },
+                "msg_queue_timestamp": {
+                    "$id": "#root/header/msg_queue_timestamp",
+                    "title": "Message Queue Timestamp",
+                    "description": "Timestamp message was pushed to queue",
+                    "type": "string",
+                    "format": "timestamp",
+                    "default": "",
+                    "examples": [
+                        "1511528234000"
+                    ]
+                }
+            }
+        },
+        "body": {
+            "$id": "#root/body",
+            "title": "Body",
+            "type": "object",
+            "required": [
+                "schedule_source",
+                "train_file_address",
+                "schedule_end_date",
+                "train_id",
+                "tp_origin_timestamp",
+                "creation_timestamp",
+                "tp_origin_stanox",
+                "origin_dep_timestamp",
+                "train_service_code",
+                "toc_id",
+                "d1266_record_number",
+                "train_call_type",
+                "train_uid",
+                "train_call_mode",
+                "schedule_type",
+                "sched_origin_stanox",
+                "schedule_wtt_id",
+                "schedule_start_date"
+            ],
+            "properties": {
+                "train_id": {
+                    "$id": "#root/body/train_id",
+                    "title": "TRUST Train Id",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/trust_train_id"
+                },
+                "schedule_source": {
+                    "$id": "#root/body/schedule_source",
+                    "title": "Schedule Source",
+                    "description": "C from CIF/ITPS, V from VSTP/TOPS",
+                    "type": "string",
+                    "examples": [
+                        "C",
+                        "V"
+                    ],
+                    "pattern": "^C|V$"
+                },
+                "train_uid": {
+                    "$id": "#root/body/train_uid",
+                    "title": "Train UID",
+                    "description": "Uniuqe Id of the schedule being activated",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/train_uid"
+                },
+                "schedule_type": {
+                    "$id": "#root/body/schedule_type",
+                    "title": "Schedule Type",
+                    "description": "The STP indicator of the schedule being activated",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/stp_indicator"
+                },
+                "schedule_start_date": {
+                    "$id": "#root/body/schedule_start_date",
+                    "title": "Schedule Start Date",
+                    "description": "Start date of the Schedule",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/schedule_date"
+                },
+                "schedule_end_date": {
+                    "$id": "#root/body/schedule_end_date",
+                    "title": "Schedule End Date",
+                    "description": "End date of the Schedule",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/schedule_date"
+                },
+                "schedule_wtt_id": {
+                    "$id": "#root/body/schedule_wtt_id",
+                    "title": "Schedule WTT Id",
+                    "description": "Signalling Headcode and TSPEED value",
+                    "type": "string",
+                    "examples": [
+                        "5F25M"
+                    ],
+                    "pattern": "^.*$"
+                },
+                "tp_origin_timestamp": {
+                    "$id": "#root/body/tp_origin_timestamp",
+                    "title": "TP Origin Timestamp",
+                    "description": "There is currently a problem with the tp_origin_timestamp field due to the truncation of the timestamp. This only occurs during daylight savings for trains which start their journey between 0001 and 0200 the next day. To work around this problem, use the date in the origin_dep_timestamp field",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/schedule_date"
+                },
+                "origin_dep_timestamp": {
+                    "$id": "#root/body/origin_dep_timestamp",
+                    "title": "Origin Departure Timestamp",
+                    "description": "The WTT time of departure from the originating location. A UNIX timestamp in milliseconds since the UNIX epoch, in UTC.",
+                    "type": "string",
+                    "format": "timestamp",
+                    "examples": [
+                        "1511535420000"
+                    ],
+                    "pattern": "^.*$"
+                },
+                "tp_origin_stanox": {
+                    "$id": "#root/body/tp_origin_stanox",
+                    "title": "TP Origin Stanox",
+                    "description": "The STANOX code of the origin location when changed or cancelled",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/stanox_code"
+                },
+                "sched_origin_stanox": {
+                    "$id": "#root/body/sched_origin_stanox",
+                    "title": "Schedule Origin Stanox",
+                    "description": "STANOX Code for originating location in Schedule",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/stanox_code"
+                },
+                "train_call_type": {
+                    "$id": "#root/body/train_call_type",
+                    "title": "Train Call Type",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/trust_train_call_type"
+                },
+                "train_call_mode": {
+                    "$id": "#root/body/train_call_mode",
+                    "title": "Train Call Mode",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/trust_train_call_mode"
+                },
+                "toc_id": {
+                    "$id": "#root/body/toc_id",
+                    "title": "TOC Id",
+                    "description": "TOC operating company Id",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/toc_id"
+                },
+                "train_service_code": {
+                    "$id": "#root/body/train_service_code",
+                    "title": "Train Service Code",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/train_service_code"
+                },
+                "train_file_address": {
+                    "$id": "#root/body/train_file_address",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/train_file_address"
+                },
+                "d1266_record_number": {
+                    "$id": "#root/body/d1266_record_number",
+                    "title": "D1266 Record Number",
+                    "description": "This will always be 00000 for train activation messages",
+                    "type": "string",
+                    "default": "00000",
+                    "examples": [
+                        "00000"
+                    ],
+                    "pattern": "^.*$"
+                },
+                "creation_timestamp": {
+                    "$id": "#root/body/creation_timestamp",
+                    "title": "Creation Timestamp",
+                    "description": "The timestamp (in milliseconds since the UNIX epoch) when the train was originally created in TRUST",
+                    "type": "string",
+                    "format": "timestamp",
+                    "examples": [
+                        "1511528234000"
+                    ],
+                    "pattern": "^.*$"
+                }
+            }
+        }
+    }
+}

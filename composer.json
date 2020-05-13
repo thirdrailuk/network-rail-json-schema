@@ -1,0 +1,41 @@
+{
+    "name": "trainjunkies-packages/network-rail-json-schema",
+    "description": "Validate Network Rail JSON",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^7.2",
+        "ext-json": "*",
+        "swaggest/json-schema": "^0.12.29"
+    },
+    "require-dev": {
+        "behat/behat": "^3.6",
+        "trainjunkies-packages/data-feeds-queue-subscriber": "^4.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "TrainjunkiesPackages\\": "src/"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "bin-dir": "bin"
+    },
+    "scripts": {
+        "behat": "bin/behat --format=pretty --stop-on-failure --colors --no-interaction",
+        "behat-schedule-assoc": "@behat --tags=association",
+        "behat-schedule-schedule": "@behat --tags=schedule",
+        "behat-schedule-timetable": "@behat --tags=timetable",
+        "behat-schedule-tiploc": "@behat --tags=tiploc",
+        "behat-trust-activation": "@behat --tags=trust-activation",
+        "behat-trust-cancellation": "@behat --tags=trust-cancellation",
+        "behat-trust-movement": "@behat --tags=trust-movement",
+        "behat-trust-reinstatement": "@behat --tags=trust-reinstatement",
+        "behat-trust-change-of-origin": "@behat --tags=trust-change-of-origin",
+        "behat-trust-change-of-identity": "@behat --tags=trust-change-of-identity",
+        "behat-trust-change-of-locations": "@behat --tags=trust-change-of-location",
+        "ci": [
+            "@behat"
+        ]
+    }
+}

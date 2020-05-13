@@ -1,0 +1,140 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "association_date": {
+            "title": "Association Date",
+            "type": "string",
+            "format": "date-time",
+            "default": "",
+            "examples": [
+                "2020-05-23T00:00:00Z"
+            ]
+        },
+        "location_suffix": {
+            "title": "Location Suffix",
+            "type": ["string", "null"],
+            "default": null,
+            "examples": [
+                null,
+                "2"
+            ]
+        }
+    },
+    "type": "object",
+    "required": [
+        "JsonAssociationV1"
+    ],
+    "properties": {
+        "JsonAssociationV1": {
+            "$id": "#root/JsonAssociationV1",
+            "title": "Jsonassociationv1",
+            "type": "object",
+            "required": [
+                "transaction_type",
+                "main_train_uid",
+                "assoc_train_uid",
+                "assoc_start_date",
+                "location",
+                "base_location_suffix",
+                "diagram_type",
+                "CIF_stp_indicator"
+            ],
+            "properties": {
+                "transaction_type": {
+                    "$id": "#root/JsonAssociationV1/transaction_type",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/transaction_type",
+                    "title": "Transaction Type"
+                },
+                "main_train_uid": {
+                    "$id": "#root/JsonAssociationV1/main_train_uid",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/train_uid",
+                    "title": "Main Train Uid"
+                },
+                "assoc_train_uid": {
+                    "$id": "#root/JsonAssociationV1/assoc_train_uid",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/train_uid",
+                    "title": "Associated Train Uid"
+                },
+                "assoc_start_date": {
+                    "$id": "#root/JsonAssociationV1/assoc_start_date",
+                    "title": "Association Start Date",
+                    "description": "Start date of the association",
+                    "$ref": "#/definitions/association_date"
+                },
+                "assoc_end_date": {
+                    "$id": "#root/JsonAssociationV1/assoc_end_date",
+                    "title": "Association Start Date",
+                    "description": "End date of the association",
+                    "$ref": "#/definitions/association_date"
+                },
+                "assoc_days": {
+                    "$id": "#root/JsonAssociationV1/assoc_days",
+                    "title": "Association Days",
+                    "description": "Days association is in place",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/days_runs"
+                },
+                "category": {
+                    "$id": "#root/JsonAssociationV1/category",
+                    "title": "Category",
+                    "description": "Type of association",
+                    "type": "string",
+                    "examples": [
+                        "  ",
+                        "JJ",
+                        "NP",
+                        "NP"
+                    ],
+                    "pattern": "^(\\s{2}|JJ|VV|NP)$"
+                },
+                "date_indicator": {
+                    "$id": "#root/JsonAssociationV1/date_indicator",
+                    "title": "Date Indicator",
+                    "description": "Date relationship of the association",
+                    "type": "string",
+                    "examples": [
+                        " ",
+                        "S",
+                        "N",
+                        "P"
+                    ],
+                    "pattern": "^(\\s{1}|N|P|S)$"
+                },
+                "location": {
+                    "$id": "#root/JsonAssociationV1/location",
+                    "title": "Location",
+                    "description": "TIPLOC of the location where the association applies",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/tiploc_code"
+                },
+                "base_location_suffix": {
+                    "$id": "#root/JsonAssociationV1/base_location_suffix",
+                    "title": "Base Location Suffix",
+                    "description": "Identifies the event on the base UID",
+                    "$ref": "#/definitions/location_suffix"
+                },
+                "assoc_location_suffix": {
+                    "$id": "#root/JsonAssociationV1/assoc_location_suffix",
+                    "title": "Association Location Suffix",
+                    "description": "Identifies the event on the association UID",
+                    "$ref": "#/definitions/location_suffix"
+                },
+                "diagram_type": {
+                    "$id": "#root/JsonAssociationV1/diagram_type",
+                    "title": "Diagram Type",
+                    "description": "With the constant value T",
+                    "type": "string",
+                    "default": "T",
+                    "examples": [
+                        "T"
+                    ],
+                    "pattern": "^T$"
+                },
+                "CIF_stp_indicator": {
+                    "$id": "#root/JsonAssociationV1/CIF_stp_indicator",
+                    "title": "CIF STP Indicator",
+                    "description": "STP (short-term planning) schedule indicator",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/stp_indicator"
+                }
+            }
+        }
+    }
+}

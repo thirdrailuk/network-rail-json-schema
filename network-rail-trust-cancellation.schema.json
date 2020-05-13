@@ -1,0 +1,124 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "required": [
+        "header",
+        "body"
+    ],
+    "properties": {
+        "header": {
+            "$id": "#root/header",
+            "allOf": [
+                {
+                    "$ref": "network-rail-definitions.schema.json#/definitions/trust_message_header"
+                },
+                {
+                    "properties": {
+                        "msg_type": {
+                            "$id": "#root/header/msg_type",
+                            "title": "Message Type",
+                            "description": "Cancellation Message type code",
+                            "type": "string",
+                            "default": "0002",
+                            "pattern": "^0002$"
+                        }
+                    }
+                }
+            ]
+        },
+        "body": {
+            "$id": "#root/body",
+            "title": "Body",
+            "type": "object",
+            "required": [
+                "train_file_address",
+                "train_service_code",
+                "orig_loc_stanox",
+                "toc_id",
+                "dep_timestamp",
+                "division_code",
+                "loc_stanox",
+                "canx_timestamp",
+                "canx_reason_code",
+                "train_id",
+                "orig_loc_timestamp",
+                "canx_type"
+            ],
+            "properties": {
+                "train_id": {
+                    "$id": "#root/body/train_id",
+                    "title": "TRUST Train Id",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/trust_train_id"
+                },
+                "canx_type": {
+                    "$id": "#root/body/canx_type",
+                    "title": "Cancellation Type",
+                    "description": "Either ON CALL for a planned cancellation, AT ORIGIN, EN ROUTE or OUT OF PLAN",
+                    "type": "string",
+                    "examples": [
+                        "AT ORIGIN",
+                        "EN ROUTE",
+                        "ON CALL",
+                        "OUT OF PLAN"
+                    ],
+                    "pattern": "^(AT ORIGIN|EN ROUTE|ON CALL|OUT OF PLAN)$"
+                },
+                "canx_reason_code": {
+                    "$id": "#root/body/canx_reason_code",
+                    "title": "Cancellation Reason Code",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/reason_code"
+                },
+                "canx_timestamp": {
+                    "$id": "#root/body/canx_timestamp",
+                    "title": "Cancellation Timestamp",
+                    "description": "The time at which the cancellation was input to TRUST",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/epoc_millisecond_timestamp"
+                },
+                "orig_loc_stanox": {
+                    "$id": "#root/body/orig_loc_stanox",
+                    "title": "Original Location STANOX",
+                    "description": "For an an OUT OF PLAN cancellation, this is the location that the train should have been at according to the schedule",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/stanox_code"
+                },
+                "orig_loc_timestamp": {
+                    "$id": "#root/body/orig_loc_timestamp",
+                    "title": "Original Location Timestamp",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/epoc_millisecond_timestamp"
+                },
+                "dep_timestamp": {
+                    "$id": "#root/body/dep_timestamp",
+                    "title": "Departure Timestamp",
+                    "description": "The departure time at the location that the train is cancelled from (in milliseconds since the UNIX epoch)",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/epoc_millisecond_timestamp"
+                },
+                "loc_stanox": {
+                    "$id": "#root/body/loc_stanox",
+                    "title": "Location Stanox",
+                    "description": "The STANOX of the location that the train is being cancelled from. For an OUT OF PLAN cancellation, this STANOX will not be in the schedule, but a Train Movement message will have already been sent.",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/stanox_code"
+                },
+                "toc_id": {
+                    "$id": "#root/body/toc_id",
+                    "title": "TOC Id",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/toc_id"
+                },
+                "division_code": {
+                    "$id": "#root/body/division_code",
+                    "title": "Division Code",
+                    "description": "TOC Id",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/toc_id"
+                },
+                "train_file_address": {
+                    "$id": "#root/body/train_file_address",
+                    "title": "Train File Address",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/train_file_address"
+                },
+                "train_service_code": {
+                    "$id": "#root/body/train_service_code",
+                    "title": "Train Service Code",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/train_service_code"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,22 @@
+language: php
+
+php: [7.2]
+
+sudo: false
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+branches:
+  only:
+    - master
+
+before_install:
+  - phpenv config-rm xdebug.ini
+
+install:
+  - composer install --no-interaction --optimize-autoloader
+
+script:
+  - composer ci

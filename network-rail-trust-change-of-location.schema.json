@@ -1,0 +1,102 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "required": [
+        "header",
+        "body"
+    ],
+    "properties": {
+        "header": {
+            "$id": "#root/header",
+            "allOf": [
+                {
+                    "$ref": "network-rail-definitions.schema.json#/definitions/trust_message_header"
+                },
+                {
+                    "properties": {
+                        "msg_type": {
+                            "$id": "#root/header/msg_type",
+                            "title": "Message Type",
+                            "description": "Change of Location Message type code",
+                            "type": "string",
+                            "default": "0008",
+                            "pattern": "^0008$"
+                        }
+                    }
+                }
+            ]
+        },
+        "body": {
+            "$id": "#root/body",
+            "title": "Body",
+            "type": "object",
+            "required": [
+                "train_id",
+                "current_train_id",
+                "event_timestamp",
+                "loc_stanox",
+                "dep_timestamp",
+                "original_loc_stanox",
+                "original_loc_timestamp",
+                "train_file_address",
+                "train_service_code"
+            ],
+            "properties": {
+                "train_id": {
+                    "$id": "#root/body/train_id",
+                    "title": "TRUST Train Id",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/trust_train_id"
+                },
+                "current_train_id": {
+                    "$id": "#root/body/current_train_id",
+                    "title": "Current Train Id",
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "pattern": "^.*$"
+                },
+                "event_timestamp": {
+                    "$id": "#root/body/event_timestamp",
+                    "title": "Event Timestamp",
+                    "description": "The time at which the Change of Location is entered into TRUST",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/epoc_millisecond_timestamp"
+                },
+                "loc_stanox": {
+                    "$id": "#root/body/loc_stanox",
+                    "title": "Location Stanox",
+                    "description": "The STANOX of the new calling point of the train",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/stanox_code"
+                },
+                "dep_timestamp": {
+                    "$id": "#root/body/dep_timestamp",
+                    "title": "Departure Timestamp",
+                    "description": "The planned departure time at the location where the train is being reinstated",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/epoc_millisecond_timestamp"
+                },
+                "original_loc_stanox": {
+                    "$id": "#root/body/original_loc_stanox",
+                    "title": "Original Location Stanox",
+                    "description": "If the location has been revised, the STANOX of the location in the schedule at activation time",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/stanox_code"
+                },
+                "original_loc_timestamp": {
+                    "$id": "#root/body/original_loc_timestamp",
+                    "title": "Original Location Timestamp",
+                    "description": "The planned time associated with the original location",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/epoc_millisecond_timestamp"
+                },
+                "train_service_code": {
+                    "$id": "#root/body/train_service_code",
+                    "title": "Train Service Code",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/train_service_code"
+                },
+                "train_file_address": {
+                    "$id": "#root/body/train_file_address",
+                    "title": "Train File Address",
+                    "$ref": "network-rail-definitions.schema.json#/definitions/train_file_address"
+                }
+            }
+        }
+    }
+}

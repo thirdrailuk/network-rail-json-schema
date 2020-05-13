@@ -1,0 +1,12 @@
+version: '2'
+
+services:
+  app:
+    build:
+      context: ./docker/app
+    environment:
+      - PHP_IDE_CONFIG=serverName=trainjunkies_packages_network_rail_json_schema
+    working_dir: /app
+    env_file: .env
+    volumes:
+        - .:/app

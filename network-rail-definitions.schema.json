@@ -1,0 +1,268 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "transaction_type": {
+            "#id": "#transaction_type",
+            "title": "Transaction Type",
+            "description": "Create or Delete schedule/association",
+            "type": "string",
+            "examples": [
+                "Create",
+                "Delete"
+            ],
+            "pattern": "^(Create|Delete)$"
+        },
+        "train_uid": {
+            "$id": "#train_uid",
+            "title": "CIF Train UID",
+            "description": "The unique identifier for the schedule",
+            "type": "string",
+            "examples": [
+                "C72592",
+                "Y95842"
+            ],
+            "pattern": "^[A-Z ]{1}[0-9]{5}$"
+        },
+        "stp_indicator": {
+            "$id": "#stp_indicator",
+            "title": "CIF STP Indicator",
+            "description": "STP (short-term planning) schedule indicator",
+            "type": "string",
+            "examples": [
+                "C",
+                "N",
+                "O",
+                "P"
+            ],
+            "pattern": "^(C|N|O|P)$"
+        },
+        "days_runs": {
+            "$id": "#days_runs",
+            "title": "Schedule Days Runs",
+            "description": "A seven-character field; character 1 represents Monday, character 7 represents Sunday. A 1 in a character position means that the service runs on that day, while a 0 means that it does not.",
+            "type": "string",
+            "examples": [
+                "1111100",
+                "0000010"
+            ],
+            "pattern": "^[0-1]{7}$"
+        },
+        "tiploc_code": {
+            "$id": "#tiploc_code",
+            "title": "TIPLOC Code",
+            "description": "Timing Point Location code",
+            "type": "string",
+            "examples": [
+                "DARTFD",
+                "NWCSTLE"
+            ],
+            "pattern": "^.*$"
+        },
+        "stanox_code": {
+            "$id": "#stanox_code",
+            "title": "STANOX Code",
+            "description": "Station Number for locations",
+            "type": "string",
+            "examples": [
+                "",
+                "77301"
+            ],
+            "pattern": "^.*$"
+        },
+        "trust_train_id": {
+            "$id": "#trust_train_id",
+            "title": "TRUST Train Id",
+            "description": "10 character unique identity of the train service",
+            "type": "string",
+            "examples": [
+                "775F25MP24"
+            ],
+            "pattern": "^(\\d{2})([A-Z0-9]{6})(\\d{2})$"
+        },
+        "signalling_headcode": {
+            "$id": "#signalling_headcode",
+            "title": "Signalling Headcode",
+            "description": "Signalling ID, also referred to as headcode",
+            "type": [
+                "string",
+                "null"
+            ],
+            "default": null,
+            "examples": [
+                "",
+                null,
+                "1A54"
+            ],
+            "pattern": "^.*$"
+        },
+        "schedule_date": {
+            "$id": "#schedule_date",
+            "type": "string",
+            "format": "date",
+            "examples": [
+                "2019-12-21"
+            ]
+        },
+        "trust_train_call_type": {
+            "$id": "#trust_train_call_type",
+            "title": "TRUST Train Call Type",
+            "description": "How a train service is activated",
+            "type": "string",
+            "examples": [
+                "AUTOMATIC",
+                "MANUAL"
+            ],
+            "pattern": "^AUTOMATIC|MANUAL$"
+        },
+        "trust_train_call_mode": {
+            "$id": "#trust_train_call_mode",
+            "title": "TRUST Train Call Mode",
+            "description": "Set to NORMAL for a train called normally, or OVERNIGHT if the train is called as part of an overnight batch process to activate peak period trains early",
+            "type": "string",
+            "examples": [
+                "NORMAL",
+                "OVERNIGHT"
+            ],
+            "pattern": "^NORMAL|OVERNIGHT$"
+        },
+        "toc_id": {
+            "$id": "#toc_id",
+            "title": "TOC Operating Company Id",
+            "type": "string",
+            "examples": [
+                "",
+                "25"
+            ],
+            "pattern": "^.*$"
+        },
+        "train_service_code": {
+            "$id": "#train_service_code",
+            "title": "Train Service Code",
+            "description": "Divides trains into service groups and used for revenue reasons",
+            "type": "string",
+            "examples": [
+                "        ",
+                "22108001"
+            ],
+            "pattern": "^.{8}$"
+        },
+        "train_file_address": {
+            "$id": "#train_file_address",
+            "title": "Train File Address",
+            "description": "The TOPS train file address, if applicable",
+            "type": [
+                "string",
+                "null"
+            ],
+            "default": null
+        },
+        "trust_message_header": {
+            "$id": "#trust_message_header",
+            "title": "Common object for TRUST Message header",
+            "description": "Common object for TRUST Message header",
+            "type": "object",
+            "required": [
+                "msg_type",
+                "source_dev_id",
+                "user_id",
+                "original_data_source",
+                "msg_queue_timestamp",
+                "source_system_id"
+            ],
+            "properties": {
+                "source_dev_id": {
+                    "$id": "#root/header/source_dev_id",
+                    "title": "Source Device Id",
+                    "description": "Blank for Activation Message",
+                    "type": "string",
+                    "default": "",
+                    "examples": [
+                        ""
+                    ]
+                },
+                "user_id": {
+                    "$id": "#root/header/user_id",
+                    "title": "User Id",
+                    "description": "Blank for Activation Message",
+                    "type": "string",
+                    "default": "",
+                    "examples": [
+                        ""
+                    ],
+                    "pattern": "^.*$"
+                },
+                "source_system_id": {
+                    "$id": "#root/header/source_system_id",
+                    "title": "Source System Id",
+                    "description": "Will be TRUST for Activation Message",
+                    "type": "string",
+                    "default": "",
+                    "examples": [
+                        "TRUST"
+                    ],
+                    "pattern": "^TRUST$"
+                },
+                "original_data_source": {
+                    "$id": "#root/header/original_data_source",
+                    "title": "Original Data Source",
+                    "description": "Will be TSIA for Activation Message",
+                    "type": "string",
+                    "examples": [
+                        "SMART",
+                        "TSIA"
+                    ],
+                    "pattern": "^.*$"
+                },
+                "msg_queue_timestamp": {
+                    "$id": "#root/header/msg_queue_timestamp",
+                    "title": "Message Queue Timestamp",
+                    "description": "Timestamp message was pushed to queue",
+                    "type": "string",
+                    "format": "timestamp",
+                    "default": "",
+                    "examples": [
+                        "1511528234000"
+                    ]
+                }
+            }
+        },
+        "epoc_millisecond_timestamp": {
+            "$id": "epoc_millisecond_timestamp",
+            "title": "UNIX epoc millisecond timestamp",
+            "type": "string",
+            "format": "timestamp",
+            "examples": [
+                "1511528234000"
+            ],
+            "pattern": "^.*$"
+        },
+        "routing": {
+            "title": "Train Routing",
+            "type": [
+                "string",
+                "null"
+            ],
+            "default": null,
+            "examples": [
+                null,
+                "",
+                "1",
+                "2A",
+                "UF",
+                "GDL"
+            ],
+            "pattern": "^.*$"
+        },
+        "reason_code": {
+            "$id": "#reason_code",
+            "title": "Reason Code",
+            "description": "Delay Attribution reason code",
+            "type": "string",
+            "examples": [
+                "TH",
+                "YI"
+            ],
+            "pattern": "^[A-Z]{2}$"
+        }
+    }
+}
